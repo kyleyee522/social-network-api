@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const { findOneAndUpdate } = require('../models/User');
 
 module.exports = {
 	async getUsers(req, res) {
@@ -18,6 +19,28 @@ module.exports = {
 				return res.status(404).json({ message: 'No user with that ID' });
 			}
 			res.json(user);
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	},
+	async createUser(req, res) {
+		try {
+			const userData = await User.create({
+				username: req.body.username,
+				email: req.body.email,
+			});
+			res.status(201).json(userData);
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	},
+	async updateUser(req, res) {
+		try {
+			const user = await User.findOneAndUpdate(
+				{ _id: req.params.userId },
+				{ username: req.body.username }
+			);
+			res.status(200).json(user);
 		} catch (error) {
 			res.status(500).json(error);
 		}
