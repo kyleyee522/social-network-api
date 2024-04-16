@@ -45,4 +45,12 @@ module.exports = {
 			res.status(500).json(error);
 		}
 	},
+	async deleteUser(req, res) {
+		try {
+			const result = await User.findOneAndDelete({ _id: req.params.userId });
+			res.status(200).json(result);
+		} catch (error) {
+			res.status(500).json(error);
+		}
+	},
 };
