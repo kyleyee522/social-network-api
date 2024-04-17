@@ -1,4 +1,9 @@
+// const { ObjectId } = require('mongoose').Types;
+// const {
+// 	Types: { ObjectId },
+// } = require('mongoose');
 const { Thought, User } = require('../models');
+// const { ObjectId } = require('mongoose').Types;
 
 module.exports = {
 	async getThoughts(req, res) {
@@ -17,6 +22,7 @@ module.exports = {
 				return res.status(404).json({ message: 'No thought with that ID' });
 			}
 			res.json(thought);
+			// res.json(thought);
 		} catch (error) {
 			console.log(error);
 			res.status(500).json(error);
@@ -35,6 +41,22 @@ module.exports = {
 						message: 'Thought created, but found no user with that ID',
 				  })
 				: res.json('Created the Thought 🎉');
+		} catch (error) {
+			console.log(error);
+			res.status(500).json(error);
+		}
+	},
+	async addReaction(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate(
+				{ _id: req.params.thoughtId },
+				{ $addToSet: { reactions: req.body } },
+				{ runValidators: true, new: true }
+			);
+			if (!thought) {
+				return res.status(404).json({ message: 'No thought with this id!' });
+			}
+			res.json(thought);
 		} catch (error) {
 			console.log(error);
 			res.status(500).json(error);

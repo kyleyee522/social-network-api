@@ -1,12 +1,14 @@
 const { Reaction, Thought } = require('../models');
+const reactionSchema = require('../models/Reaction');
 
 module.exports = {
 	async createReaction(req, res) {
 		try {
-			const reaction = await Reaction.create(req.body);
+			// const reaction = await Reaction.create(req.body);
+			const reaction = await reactionSchema.create(req.body);
 			const thought = await Thought.findOneAndUpdate(
 				{ _id: req.params.thoughtId },
-				{ $addToSet: { reactions: reaction._id } },
+				{ $addToSet: { reactions: reaction } },
 				{ new: true }
 			);
 			!thought
