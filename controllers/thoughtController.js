@@ -51,6 +51,7 @@ module.exports = {
 			const thought = await Thought.findOneAndUpdate(
 				{ _id: req.params.thoughtId },
 				{ $addToSet: { reactions: req.body } },
+				// Need to run validators or else it will not check whether the keys are correct in req.body
 				{ runValidators: true, new: true }
 			);
 			if (!thought) {
