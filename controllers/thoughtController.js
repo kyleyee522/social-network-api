@@ -70,6 +70,19 @@ module.exports = {
 			res.status(500).json(error);
 		}
 	},
+	async deleteReaction(req, res) {
+		try {
+			const result = await Thought.findOneAndUpdate(
+				{ _id: req.params.thoughtId },
+				{ $pull: { reactions: { reactionId: req.params.reactionId } } },
+				{ runValidators: true, new: true }
+			);
+			res.json(result);
+		} catch (error) {
+			console.log(error);
+			res.status(500).json(error);
+		}
+	},
 	async updateThought(req, res) {
 		try {
 			const thought = await Thought.findOneAndUpdate(
