@@ -1,23 +1,11 @@
 const { User } = require('../models');
 const { findOneAndUpdate } = require('../models/User');
 
-// const friendCount = async () => {
-// 	const numberOfFriends = await User.aggregate([{ $count: 'friendsCount' }]);
-// 	return numberOfFriends;
-// };
-
 module.exports = {
 	async getUsers(req, res) {
 		try {
 			const users = await User.find();
-			// const userObj = {
-			// 	users,
-			// 	users[friendCount] = await friendCount()
-			// };
-			// users[friendCount] = await friendCount();
-
 			res.status(200).json(users);
-			// res.status(200).json({ msg: 'nice' });
 		} catch (error) {
 			console.log(error);
 			res.status(500).json(error);
